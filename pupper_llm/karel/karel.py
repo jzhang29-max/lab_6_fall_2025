@@ -82,7 +82,11 @@ class KarelPupper:
         if play_sound:
             try:
                 pygame.mixer.init()
-                sound = pygame.mixer.Sound('sounds/puppy_bob.wav')
+                root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # one level up from pupper_llm/
+                sound_path = os.path.join(root_dir, "sounds", "puppy_bob.wav")
+                if not os.path.exists(sound_path):
+                    raise FileNotFoundError(f"Sound file not found at {sound_path}")
+                sound = pygame.mixer.Sound(sound_path)
                 sound.play()
             except Exception as e:
                 self.node.get_logger().error(f"Failed to play sound: {e}")
@@ -99,6 +103,7 @@ class KarelPupper:
             self.cmd_vel_publisher.publish(twist)
             rclpy.spin_once(self.node, timeout_sec=0.01)
             time.sleep(half_bob_duration)
+
         self.stop()
         # ==== TODO: Implement the steps above ====
         self.node.get_logger().info('Bob!')
