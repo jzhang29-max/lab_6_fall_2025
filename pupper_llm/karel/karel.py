@@ -82,7 +82,7 @@ class KarelPupper:
         if play_sound:
             try:
                 pygame.mixer.init()
-                root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # one level up from pupper_llm/
+                root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
                 sound_path = os.path.join(root_dir, "sounds", "puppy_bob.wav")
                 if not os.path.exists(sound_path):
                     raise FileNotFoundError(f"Sound file not found at {sound_path}")
@@ -223,6 +223,32 @@ class KarelPupper:
         # TODO: Create your own awesome Pupper dance move sequence here!
         # Use combinations of self.wiggle(), self.turn_left(), self.turn_right(), self.bob(), and self.stop().
         # Be creative and choreograph the most exciting dance possible!
+        try:
+            self.wiggle()
+            time.sleep(2.5)
+
+            for _ in range(2):
+                self.turn_left()
+                time.sleep(0.5)
+                self.turn_right()
+                time.sleep(0.5)
+            self.bob(bob_time=2)
+            time.sleep(0.5)
+
+            self.wiggle()
+            time.sleep(2.0)
+
+            self.turn_left()
+            time.sleep(0.5)
+            self.turn_right()
+            time.sleep(0.5)
+
+            self.stop()
+            self.node.get_logger().info("Dance complete!")
+
+        except Exception as e:
+            self.node.get_logger().error(f"Error during dance: {e}")
+            self.stop()
         pass
 
 
