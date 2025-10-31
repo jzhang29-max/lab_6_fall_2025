@@ -140,7 +140,7 @@ class KarelRealtimeCommanderNode(Node):
             p = p.strip()
             if not p:
                 continue
-
+            
             if re.search(r'\b(move|forward|go)\b', p):
                 commands.append("move")
             elif re.search(r'\b(back|reverse)\b', p):
@@ -182,6 +182,7 @@ class KarelRealtimeCommanderNode(Node):
             #   - For "dance" actions, the full dance is ~12.0 seconds; use await asyncio.sleep(12.0)
             #   - For most normal moves and turns, use 0.5 seconds.
             # See the KarelPupper API for supported commands and their method names.
+            
             elif command in ["back", "reverse"]:
                 self.pupper.move_backward()
                 await asyncio.sleep(0.5)
