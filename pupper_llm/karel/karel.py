@@ -79,9 +79,28 @@ class KarelPupper:
 
         Remove the 'pass' statement after you implement the steps above.
         """
-        # ==== TODO: Implement the steps above ====
-        pass
+        if play_sound:
+            try:
+                pygame.mixer.init()
+                sound = pygame.mixer.Sound('sounds/puppy_bob.wav')
+                sound.play()
+            except Exception as e:
+                self.node.get_logger().error(f"Failed to play sound: {e}")
 
+        twist = Twist()
+        speed = 0.2
+        half_bob_duration = 0.2
+        start_time = time.time()
+
+        while time.time() - start_time < bob_time:
+            direction = 1 if int((time.time() - start_time) / half_bob_duration) % 2 == 0 else -1
+            twist.linear.x = direction * speed
+            twist.angular.z = 0.0
+            self.cmd_vel_publisher.publish(twist)
+            rclpy.spin_once(self.node, timeout_sec=0.01)
+            time.sleep(half_bob_duration)
+        self.stop()
+        # ==== TODO: Implement the steps above ====
         self.node.get_logger().info('Bob!')
 
     def move_forward(self):
@@ -91,7 +110,13 @@ class KarelPupper:
         - Use the move() helper function that is implemented above, or manually construct move_cmd = Twist().
         - Publish the Twist command for a set duration, then stop.
         """
-        pass
+        move_cmd = Twist()
+        move_cmd.linear.x = 1.0
+        move_cmd.angular.z = 0.0 
+        self.publisher.publish(move_cmd)
+        rclpy.spin_once(self.node, timeout_sec=1.0)
+        self.node.get_logger().info('Move forward...')
+        self.stop()
 
     def move_backward(self):
         """
@@ -100,7 +125,13 @@ class KarelPupper:
         - Use move() or create your own Twist message.
         - Be careful with speed—backward motion is often best slower.
         """
-        pass
+        move_cmd = Twist()
+        move_cmd.linear.x = -1.0
+        move_cmd.angular.z = 0.0 
+        self.publisher.publish(move_cmd)
+        rclpy.spin_once(self.node, timeout_sec=1.0)
+        self.node.get_logger().info('Move backward...')
+        self.stop()
 
     def move_left(self):
         """
@@ -108,7 +139,13 @@ class KarelPupper:
         - Set an appropriate linear.y value for left strafe.
         - Use move() or build the move_cmd yourself.
         """
-        pass
+        move_cmd = Twist()
+        move_cmd.linear.y = 1.0
+        move_cmd.angular.z = 0.0 
+        self.publisher.publish(move_cmd)
+        rclpy.spin_once(self.node, timeout_sec=1.0)
+        self.node.get_logger().info('Move left...')
+        self.stop()
 
     def move_right(self):
         """
@@ -116,7 +153,13 @@ class KarelPupper:
         - Set an appropriate negative linear.y value for right strafe.
         - Use move() or create your own move_cmd.
         """
-        pass
+        move_cmd = Twist()
+        move_cmd.linear.y = -1.0
+        move_cmd.angular.z = 0.0 
+        self.publisher.publish(move_cmd)
+        rclpy.spin_once(self.node, timeout_sec=1.0)
+        self.node.get_logger().info('Move right...')
+        self.stop()
 
     def turn_left(self):
         """
@@ -124,7 +167,13 @@ class KarelPupper:
         - Set a positive angular.z value for left rotation.
         - Use move() or build your own move_cmd.
         """
-        pass
+        move_cmd = Twist()
+        move_cmd.linear.y = 0.0
+        move_cmd.angular.z = 1.0 
+        self.publisher.publish(move_cmd)
+        rclpy.spin_once(self.node, timeout_sec=1.0)
+        self.node.get_logger().info('Move right...')
+        self.stop()
 
     def turn_right(self):
         """
@@ -132,7 +181,13 @@ class KarelPupper:
         - Set a negative angular.z value for right rotation.
         - Use move() or make your own Twist message.
         """
-        pass
+        move_cmd = Twist()
+        move_cmd.linear.y = 0.0
+        move_cmd.angular.z = -1.0 
+        self.publisher.publish(move_cmd)
+        rclpy.spin_once(self.node, timeout_sec=1.0)
+        self.node.get_logger().info('Move right...')
+        self.stop()
 
     def bark(self):
         self.node.get_logger().info('Bark...')
