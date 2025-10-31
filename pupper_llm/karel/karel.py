@@ -100,7 +100,7 @@ class KarelPupper:
             direction = 1 if int((time.time() - start_time) / half_bob_duration) % 2 == 0 else -1
             twist.linear.x = direction * speed
             twist.angular.z = 0.0
-            self.cmd_vel_publisher.publish(twist)
+            self.publisher.publish(twist)
             rclpy.spin_once(self.node, timeout_sec=0.01)
             time.sleep(half_bob_duration)
 
