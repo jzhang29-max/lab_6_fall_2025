@@ -18,7 +18,7 @@ from typing import Optional
 
 # OpenAI API Configuration
 # Replace with your actual OpenAI API key
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = "your-openai-api-key-here"
 
 # Model Configuration
 GPT_MODEL = "gpt-4"
