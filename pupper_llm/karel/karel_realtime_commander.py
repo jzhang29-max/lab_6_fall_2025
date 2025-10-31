@@ -140,7 +140,7 @@ class KarelRealtimeCommanderNode(Node):
             p = p.strip()
             if not p:
                 continue
-            
+
             if re.search(r'\b(move|forward|go)\b', p):
                 commands.append("move")
             elif re.search(r'\b(back|reverse)\b', p):
