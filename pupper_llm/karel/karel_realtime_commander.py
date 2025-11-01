@@ -89,18 +89,7 @@ class KarelRealtimeCommanderNode(Node):
             extracted = self.extract_commands_from_line(line)
             if extracted:
                 all_commands.extend(extracted)
-
-        if all_commands:
-            logger.info(f"📋 Commands (in order): {all_commands}")
-            current_time = time.time()
-            for cmd in all_commands:
-                command_with_time = (cmd, current_time)
-                asyncio.create_task(self.command_queue.put(command_with_time))
-        else:
-            logger.debug("No commands found")
-
-
-        
+                       
         if all_commands:
             logger.info(f"📋 Commands (in order): {all_commands}")
             # Queue commands with timestamp in sequential order
@@ -141,24 +130,33 @@ class KarelRealtimeCommanderNode(Node):
             if not p:
                 continue
 
-            if re.search(r'\b(move|forward|go)\b', p):
+            if re.search(r'\b(forward|go)\b', p):
                 commands.append("move")
-            elif re.search(r'\b(back|reverse)\b', p):
+                return commands
+            elif re.search(r'\b(backward|reverse)\b', p):
                 commands.append("back")
+                return commands
             elif re.search(r'\b(left|turn left)\b', p):
                 commands.append("turn_left")
+                return commands
             elif re.search(r'\b(right|turn right)\b', p):
                 commands.append("turn_right")
+                return commands
             elif re.search(r'\b(bark|woof)\b', p):
                 commands.append("bark")
+                return commands
             elif re.search(r'\b(wag|wiggle|tail)\b', p):
                 commands.append("wiggle")
+                return commands
             elif re.search(r'\b(bob|nod|bounce)\b', p):
                 commands.append("bob")
+                return commands
             elif re.search(r'\b(dance|boogie)\b', p):
                 commands.append("dance")
+                return commands
             elif re.search(r'\b(stop|halt)\b', p):
                 commands.append("stop")
+                return commands
             else:
                 logger.debug(f"Unrecognized phrase: '{p}'")
 
